@@ -16,6 +16,7 @@ function App() {
 
       <GridItem
         area="aside"
+        paddingX={5}
         display={{ base: "none", lg: "block" }} // only visible on lg+
       >
         <GenreList />
