@@ -1,12 +1,24 @@
 import { Input } from "@chakra-ui/react";
-import React from "react";
+import { useRef } from "react";
 
-export const SearchInput = () => {
+interface Props {
+  onSearch: (searchText: string) => void;
+}
+export const SearchInput = ({ onSearch }: Props) => {
+  const ref = useRef<HTMLInputElement>(null);
   return (
-    <Input
-      placeholder="Search games.."
-      borderRadius={20}
-      variant="outline"
-    ></Input>
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        if (ref.current) onSearch(ref.current.value);
+      }}
+    >
+      <Input
+        ref={ref}
+        placeholder="Search games.."
+        borderRadius={20}
+        variant="outline"
+      />
+    </form>
   );
 };
