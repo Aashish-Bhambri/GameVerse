@@ -1,18 +1,16 @@
-import { HStack, Image } from "@chakra-ui/react";
-import react from "../assets/react.svg";
-import ChangecolorMode from "./ChangecolorMode";
+import logo3 from "../assets/Logo3.svg";
 import { SearchInput } from "./SearchInput";
 
 interface Props {
   onSearch: (searchText: string) => void;
 }
+
 const NavBar = ({ onSearch }: Props) => {
   return (
-    <HStack>
-      <Image src={react}></Image>
+    <div className="flex items-center gap-4 w-full">
+      <img src={logo3} alt="Logo" className="w-14 h-14 object-contain hover:scale-110 transition-transform cursor-pointer" />
       <SearchInput onSearch={onSearch} />
-      <ChangecolorMode />
-    </HStack>
+    </div>
   );
 };
 

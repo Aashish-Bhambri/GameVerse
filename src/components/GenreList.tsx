@@ -1,7 +1,6 @@
-import useData from "@/hooks/useData";
-import { type Genre } from "@/hooks/useGenres";
-import getCroppedImageUrl from "@/services/image-url";
-import { Box, Button, HStack, Image, Spinner } from "@chakra-ui/react";
+import useData from "../hooks/useData";
+import { type Genre } from "../hooks/useGenres";
+import getCroppedImageUrl from "../services/image-url";
 
 interface Props {
   onSelectGenre: (genre: Genre) => void;
@@ -10,33 +9,37 @@ interface Props {
 
 const GenreList = ({ onSelectGenre, selectedGenre }: Props) => {
   const { data = [], isLoading, error } = useData<Genre>("/genres");
-  if (isLoading) return <Spinner />;
+  
+  if (isLoading) return (
+    <div className="flex justify-center py-10">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+    </div>
+  );
   if (error) return null;
 
   return (
-    <>
-      <Box as="ul" style={{ listStyle: "none", margin: 0, padding: "0px" }}>
+    <div className="flex flex-col gap-2">
+      <h2 className="text-2xl font-bold mb-3">Genres</h2>
+      <ul className="flex flex-col gap-2">
         {data.map((genre) => (
-          <Box as="li" key={genre.id} mb={2} padding="5px">
-            <HStack>
-              <Image
-                boxSize="32px"
-                borderRadius={8}
+          <li key={genre.id}>
+            <button
+              onClick={() => onSelectGenre(genre)}
+              className={`flex items-center gap-3 w-full text-left p-2 rounded-lg transition-all hover:bg-white/10 group ${
+                genre.id === selectedGenre?.id ? "bg-white/10 font-bold" : "font-normal text-gray-400"
+              }`}
+            >
+              <img
+                className="w-8 h-8 rounded-lg object-cover group-hover:scale-110 transition-transform"
                 src={getCroppedImageUrl(genre.image_background)}
+                alt={genre.name}
               />
-              <Button
-                fontWeight={genre.id === selectedGenre?.id ? "bold" : "normal"}
-                onClick={() => onSelectGenre(genre)}
-                fontSize="lg"
-                variant={"outline"}
-              >
-                {genre.name}
-              </Button>
-            </HStack>
-          </Box>
+              <span className="text-lg group-hover:text-white transition-colors">{genre.name}</span>
+            </button>
+          </li>
         ))}
-      </Box>
-    </>
+      </ul>
+    </div>
   );
 };
 

@@ -1,3 +1,13 @@
-form{
-	width: 100%;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-[#121212] text-gray-200 antialiased;
+  }
+}
+
+form {
+  width: 100%;
 }
