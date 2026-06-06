@@ -14,7 +14,9 @@ function HomePage() {
   const selectedGenre = genres.find((g) => g.id === gameQuery.genreId);
   const selectedPlatform = platforms.find((p) => p.id === gameQuery.platformId);
 
-  const heading = `${selectedPlatform?.name || ""} ${selectedGenre?.name || ""} Games`.trim();
+  const heading =
+    gameQuery.title ||
+    `${selectedPlatform?.name || ""} ${selectedGenre?.name || ""} Home`.trim();
 
   return (
     <div className="flex-1 grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-8 p-4 lg:p-8 max-w-[1600px] mx-auto w-full">
@@ -29,7 +31,7 @@ function HomePage() {
         <h1 className="text-5xl font-extrabold tracking-tight text-white mb-2">
           {heading === "Games" || !heading ? "Games" : heading}
         </h1>
-        
+
         {/* Selectors */}
         <div className="flex flex-wrap items-center gap-4">
           <PlatformSelector />

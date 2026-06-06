@@ -6,6 +6,7 @@ export interface GameQuery {
     platformId?: number;
     sortOrder?: string;
     searchText?: string;
+    title?: string;
 }
 
 // 2. Define the shape of your Store (Data + Actions)
@@ -15,6 +16,7 @@ interface GameQueryStore {
     setGenreId: (genreId?: number) => void;
     setPlatformId: (platformId?: number) => void;
     setSortOrder: (sortOrder?: string) => void;
+    setTitle: (title?: string) => void;
     resetAll: () => void;
 }
 
@@ -27,26 +29,31 @@ const useGameQueryStore = create<GameQueryStore>((set) => ({
         set((store) => ({
             gameQuery: searchText
                 ? { searchText }
-                : { ...store.gameQuery, searchText: undefined },
+                : { ...store.gameQuery, searchText: undefined, title: undefined },
         })),
 
     setGenreId: (genreId) =>
         set((store) => ({
             gameQuery: genreId === undefined
-                ? { ...store.gameQuery, genreId: undefined }
-                : { ...store.gameQuery, genreId, searchText: undefined },
+                ? { ...store.gameQuery, genreId: undefined, title: undefined }
+                : { ...store.gameQuery, genreId, searchText: undefined, title: undefined },
         })),
 
     setPlatformId: (platformId) =>
         set((store) => ({
             gameQuery: platformId === undefined
-                ? { ...store.gameQuery, platformId: undefined }
-                : { ...store.gameQuery, platformId, searchText: undefined },
+                ? { ...store.gameQuery, platformId: undefined, title: undefined }
+                : { ...store.gameQuery, platformId, searchText: undefined, title: undefined },
         })),
 
     setSortOrder: (sortOrder) =>
         set((store) => ({
             gameQuery: { ...store.gameQuery, sortOrder },
+        })),
+
+    setTitle: (title) =>
+        set((store) => ({
+            gameQuery: { ...store.gameQuery, title },
         })),
 
     resetAll: () => set(() => ({ gameQuery: {} })),

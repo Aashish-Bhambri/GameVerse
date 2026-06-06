@@ -27,6 +27,7 @@ const Sidebar = () => {
   const setPlatformId = useGameQueryStore((s) => s.setPlatformId);
   const setSortOrder = useGameQueryStore((s) => s.setSortOrder);
   const resetAll = useGameQueryStore((s) => s.resetAll);
+  const setTitle = useGameQueryStore((s) => s.setTitle);
 
   const { data: genres = [], isLoading: loadingGenres } = useGenres();
   const { data: platforms = [], isLoading: loadingPlatforms } = usePlatforms();
@@ -40,19 +41,22 @@ const Sidebar = () => {
 
   const handleHomeClick = () => {
     resetAll();
+    setTitle("Home");
   };
 
   const handleReviewsClick = () => {
     resetAll();
     setSortOrder("-rating");
+    setTitle("Reviews");
   };
 
-  const handleNewReleasesClick = () => {
+  const handleNewReleasesClick = (timeframe: string) => {
     resetAll();
     setSortOrder("-released");
+    setTitle(timeframe);
   };
 
-  const handleTopClick = (type: string) => {
+  const handleTopClick = (type: string, label: string) => {
     resetAll();
     if (type === "best-year") {
       setSortOrder("-metacritic");
@@ -61,6 +65,7 @@ const Sidebar = () => {
     } else if (type === "top-250") {
       setSortOrder("-metacritic");
     }
+    setTitle(label);
   };
 
   return (
@@ -72,7 +77,7 @@ const Sidebar = () => {
             <button
               onClick={handleHomeClick}
               className={`flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 group ${
-                !gameQuery.genreId && !gameQuery.platformId && !gameQuery.sortOrder && !gameQuery.searchText
+                gameQuery.title === "Home" || (!gameQuery.genreId && !gameQuery.platformId && !gameQuery.sortOrder && !gameQuery.searchText && !gameQuery.title)
                   ? "bg-white/10 font-bold text-white"
                   : "text-gray-400 hover:text-white"
               }`}
@@ -85,7 +90,7 @@ const Sidebar = () => {
             <button
               onClick={handleReviewsClick}
               className={`flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 group ${
-                gameQuery.sortOrder === "-rating" ? "bg-white/10 font-bold text-white" : "text-gray-400 hover:text-white"
+                gameQuery.title === "Reviews" ? "bg-white/10 font-bold text-white" : "text-gray-400 hover:text-white"
               }`}
             >
               <FaStar className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
@@ -107,8 +112,10 @@ const Sidebar = () => {
           ].map((item) => (
             <li key={item.label}>
               <button
-                onClick={handleNewReleasesClick}
-                className="flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 group text-gray-400 hover:text-white"
+                onClick={() => handleNewReleasesClick(item.label)}
+                className={`flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 group ${
+                  gameQuery.title === item.label ? "bg-white/10 font-bold text-white" : "text-gray-400 hover:text-white"
+                }`}
               >
                 <item.icon className="w-4 h-4 text-gray-400 group-hover:text-white transition-colors" />
                 <span className="text-sm group-hover:text-white transition-colors">{item.label}</span>
@@ -124,8 +131,10 @@ const Sidebar = () => {
         <ul className="flex flex-col gap-1">
           <li>
             <button
-              onClick={() => handleTopClick("best-year")}
-              className="flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 group text-gray-400 hover:text-white"
+              onClick={() => handleTopClick("best-year", "Best of the year")}
+              className={`flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 group ${
+                gameQuery.title === "Best of the year" ? "bg-white/10 font-bold text-white" : "text-gray-400 hover:text-white"
+              }`}
             >
               <FaTrophy className="w-4 h-4 text-gray-400 group-hover:text-white transition-colors" />
               <span className="text-sm group-hover:text-white transition-colors">Best of the year</span>
@@ -133,8 +142,10 @@ const Sidebar = () => {
           </li>
           <li>
             <button
-              onClick={() => handleTopClick("popular-2025")}
-              className="flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 group text-gray-400 hover:text-white"
+              onClick={() => handleTopClick("popular-2025", "Popular in 2025")}
+              className={`flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 group ${
+                gameQuery.title === "Popular in 2025" ? "bg-white/10 font-bold text-white" : "text-gray-400 hover:text-white"
+              }`}
             >
               <FaFire className="w-4 h-4 text-gray-400 group-hover:text-white transition-colors" />
               <span className="text-sm group-hover:text-white transition-colors">Popular in 2025</span>
@@ -142,8 +153,10 @@ const Sidebar = () => {
           </li>
           <li>
             <button
-              onClick={() => handleTopClick("top-250")}
-              className="flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 group text-gray-400 hover:text-white"
+              onClick={() => handleTopClick("top-250", "All time top 250")}
+              className={`flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 group ${
+                gameQuery.title === "All time top 250" ? "bg-white/10 font-bold text-white" : "text-gray-400 hover:text-white"
+              }`}
             >
               <FaCrown className="w-4 h-4 text-gray-400 group-hover:text-white transition-colors" />
               <span className="text-sm group-hover:text-white transition-colors">All time top 250</span>
@@ -155,8 +168,13 @@ const Sidebar = () => {
       {/* All Games Link */}
       <div>
         <button
-          onClick={handleHomeClick}
-          className="flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 group text-gray-400 hover:text-white"
+          onClick={() => {
+            resetAll();
+            setTitle("All Games");
+          }}
+          className={`flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 group ${
+            gameQuery.title === "All Games" ? "bg-white/10 font-bold text-white" : "text-gray-400 hover:text-white"
+          }`}
         >
           <FaGamepad className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
           <span className="text-base font-bold text-white group-hover:text-white transition-colors">All Games</span>
