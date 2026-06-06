@@ -1,5 +1,5 @@
 import GameGrid from "../components/GameGrid";
-import GenreList from "../components/GenreList";
+import Sidebar from "../components/Sidebar";
 import PlatformSelector from "../components/PlatformSelector";
 import SortSelector from "../components/SortSelector";
 import useGameQueryStore from "../store";
@@ -20,7 +20,7 @@ function HomePage() {
     <div className="flex-1 grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-8 p-4 lg:p-8 max-w-[1600px] mx-auto w-full">
       {/* Aside / Sidebar Area */}
       <aside className="hidden lg:block">
-        <GenreList />
+        <Sidebar />
       </aside>
 
       {/* Main Feed Area */}
