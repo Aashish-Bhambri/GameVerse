@@ -27,3 +27,6 @@ dist-ssr
 .env
 .env.*
 .vercel
+
+#Dependencies
+node_modules/
