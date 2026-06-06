@@ -1,14 +1,12 @@
 import useData from "../hooks/useData";
 import { type Genre } from "../hooks/useGenres";
 import getCroppedImageUrl from "../services/image-url";
+import useGameQueryStore from "../store";
 
-interface Props {
-  onSelectGenre: (genre: Genre) => void;
-  selectedGenre: Genre | null;
-}
-
-const GenreList = ({ onSelectGenre, selectedGenre }: Props) => {
+const GenreList = () => {
   const { data = [], isLoading, error } = useData<Genre>("/genres");
+  const selectedGenreId = useGameQueryStore(s => s.gameQuery.genreId);
+  const setSelectedGenreId = useGameQueryStore(s => s.setGenreId);
   
   if (isLoading) return (
     <div className="flex justify-center py-10">
@@ -24,9 +22,9 @@ const GenreList = ({ onSelectGenre, selectedGenre }: Props) => {
         {data.map((genre) => (
           <li key={genre.id}>
             <button
-              onClick={() => onSelectGenre(genre)}
+              onClick={() => setSelectedGenreId(genre.id)}
               className={`flex items-center gap-3 w-full text-left p-2 rounded-lg transition-all hover:bg-white/10 group ${
-                genre.id === selectedGenre?.id ? "bg-white/10 font-bold" : "font-normal text-gray-400"
+                genre.id === selectedGenreId ? "bg-white/10 font-bold" : "font-normal text-gray-400"
               }`}
             >
               <img
