@@ -54,7 +54,7 @@ const useGame = (slug: string) => {
     setLoading(true);
     // RAWG API endpoint for a single game is /games/{slug}
     apiClient
-      .get<GameDetails>(`/games/${slug}`)
+      .get<GameDetails>(`/games`, { params: { slug } })
       .then((res) => {
         setGame(res.data);
         setLoading(false);

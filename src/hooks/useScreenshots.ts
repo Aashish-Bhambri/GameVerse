@@ -24,7 +24,7 @@ const useScreenshots = (slug: string) => {
 
     setLoading(true);
     apiClient
-      .get<FetchResponse>(`/games/${slug}/screenshots`)
+      .get<FetchResponse>(`/screenshots`, { params: { slug } })
       .then((res) => {
         setScreenshots(res.data.results);
         setLoading(false);

@@ -12,7 +12,7 @@ const usePlatforms = () => {
   const hasError = !!error;
 
   return {
-    data: hasError || data.length === 0 ? mockPlatforms : data,
+    data: hasError || !data || data.length === 0 ? mockPlatforms : data,
     isLoading,
     error: hasError ? "" : error,
   };

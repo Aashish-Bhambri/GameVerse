@@ -27,7 +27,7 @@ const useTrailers = (slug: string) => {
 
     setLoading(true);
     apiClient
-      .get<FetchResponse>(`/games/${slug}/movies`)
+      .get<FetchResponse>(`/movies`, { params: { slug } })
       .then((res) => {
         setTrailers(res.data.results);
         setLoading(false);

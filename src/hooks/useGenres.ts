@@ -13,7 +13,7 @@ const useGenres = () => {
   const hasError = !!error;
 
   return {
-    data: hasError || data.length === 0 ? mockGenres : data,
+    data: hasError || !data || data.length === 0 ? mockGenres : data,
     isLoading,
     error: hasError ? "" : error,
   };
