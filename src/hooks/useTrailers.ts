@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import apiClient from "@/services/api-client";
+import { getFallbackTrailers } from "../data/mock-details";
 
 export interface Trailer {
   id: number;
@@ -32,7 +33,9 @@ const useTrailers = (slug: string) => {
         setLoading(false);
       })
       .catch((err) => {
-        setError(err.message);
+        console.warn("Trailers fetch failed, loading offline trailers.", err);
+        setTrailers(getFallbackTrailers(slug));
+        setError(""); // Clear error to allow mock render
         setLoading(false);
       });
   }, [slug]);

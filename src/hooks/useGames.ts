@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
-import useGameQueryStore from "../store";
+import useGameQueryStore, { type GameQuery } from "../store";
+import { mockGames } from "../data/mock-games";
 
 export interface Platform {
   id: number;
@@ -24,6 +25,38 @@ interface FetchGamesResponse {
   next: string | null;
   results: Game[];
 }
+
+const getFilteredMockGames = (query: GameQuery) => {
+  let filtered = [...mockGames];
+
+  if (query.genreId) {
+    filtered = filtered.filter((g) => g.genres?.some((genre) => genre.id === query.genreId));
+  }
+
+  if (query.platformId) {
+    filtered = filtered.filter((g) => g.parent_platforms?.some((p) => p.platform.id === query.platformId));
+  }
+
+  if (query.searchText) {
+    const search = query.searchText.toLowerCase();
+    filtered = filtered.filter((g) => g.name.toLowerCase().includes(search));
+  }
+
+  if (query.sortOrder) {
+    const order = query.sortOrder;
+    if (order === "-metacritic" || order === "-rating") {
+      filtered.sort((a, b) => b.metacritic - a.metacritic);
+    } else if (order === "-released") {
+      filtered.sort((a, b) => new Date(b.released).getTime() - new Date(a.released).getTime());
+    } else if (order === "-name") {
+      filtered.sort((a, b) => b.name.localeCompare(a.name));
+    } else if (order === "name") {
+      filtered.sort((a, b) => a.name.localeCompare(b.name));
+    }
+  }
+
+  return filtered;
+};
 
 const useGames = () => {
   const gameQuery = useGameQueryStore((s) => s.gameQuery);
@@ -60,7 +93,12 @@ const useGames = () => {
       })
       .catch((err) => {
         if (err.name === "CanceledError") return;
-        setError(err.message);
+        
+        console.warn("Games fetch failed, using local mock data fallback.", err);
+        const filtered = getFilteredMockGames(gameQuery);
+        setData(filtered.slice(0, 12));
+        setHasNextPage(filtered.length > 12);
+        setError(""); // Clear error to render mock data
         setLoading(false);
       });
 
@@ -93,7 +131,11 @@ const useGames = () => {
       })
       .catch((err) => {
         if (err.name === "CanceledError") return;
-        setError(err.message);
+        
+        console.warn("Next page fetch failed, appending mock games.", err);
+        const filtered = getFilteredMockGames(gameQuery);
+        setData((prev) => [...prev, ...filtered.slice(12, 24)]);
+        setHasNextPage(false); // No more pages offline
         setFetchingNextPage(false);
       });
 

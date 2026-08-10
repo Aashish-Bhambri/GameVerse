@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-// 1. Define the shape of your state
+// 1. Define the shape state
 export interface GameQuery {
     genreId?: number;
     platformId?: number;
@@ -9,7 +9,7 @@ export interface GameQuery {
     title?: string;
 }
 
-// 2. Define the shape of your Store (Data + Actions)
+// 2. Define the shape Store (Data + Actions)
 interface GameQueryStore {
     gameQuery: GameQuery;
     setSearchText: (searchText?: string) => void;

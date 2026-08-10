@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import apiClient from "@/services/api-client";
 import { type Game, type Platform } from "./useGames";
+import { getFallbackGameDetails } from "../data/mock-details";
 
 export interface Developer {
   id: number;
@@ -59,7 +60,9 @@ const useGame = (slug: string) => {
         setLoading(false);
       })
       .catch((err) => {
-        setError(err.message);
+        console.warn("Game details fetch failed, loading offline fallback details.", err);
+        setGame(getFallbackGameDetails(slug));
+        setError(""); // Clear error to allow mock render
         setLoading(false);
       });
   }, [slug]);

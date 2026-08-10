@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import apiClient from "@/services/api-client";
+import { getFallbackScreenshots } from "../data/mock-details";
 
 export interface Screenshot {
   id: number;
@@ -29,7 +30,9 @@ const useScreenshots = (slug: string) => {
         setLoading(false);
       })
       .catch((err) => {
-        setError(err.message);
+        console.warn("Screenshots fetch failed, loading offline screenshots.", err);
+        setScreenshots(getFallbackScreenshots(slug));
+        setError(""); // Clear error to allow mock render
         setLoading(false);
       });
   }, [slug]);
