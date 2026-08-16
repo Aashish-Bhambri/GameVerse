@@ -87,7 +87,7 @@ const useGames = () => {
         },
       })
       .then((res) => {
-        setData(res.data.results);
+        setData(res.data.results || []);
         setHasNextPage(!!res.data.next);
         setLoading(false);
       })
@@ -125,7 +125,7 @@ const useGames = () => {
         },
       })
       .then((res) => {
-        setData((prev) => [...prev, ...res.data.results]);
+        setData((prev) => [...prev, ...(res.data.results || [])]);
         setHasNextPage(!!res.data.next);
         setFetchingNextPage(false);
       })

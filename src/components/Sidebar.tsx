@@ -14,12 +14,9 @@ import {
   FaFire,
   FaCrown,
   FaGamepad,
-  FaShoppingBag,
-  FaFolder,
   FaChevronDown,
   FaChevronUp,
 } from "react-icons/fa";
-import { BsGlobe } from "react-icons/bs";
 
 const Sidebar = () => {
   const gameQuery = useGameQueryStore((s) => s.gameQuery);
@@ -75,8 +72,9 @@ const Sidebar = () => {
         <ul className="flex flex-col gap-1">
           <li>
             <button
+              type="button"
               onClick={handleHomeClick}
-              className={`flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 group ${
+              className={`flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 group ${
                 gameQuery.title === "Home" || (!gameQuery.genreId && !gameQuery.platformId && !gameQuery.sortOrder && !gameQuery.searchText && !gameQuery.title)
                   ? "bg-white/10 font-bold text-white"
                   : "text-gray-400 hover:text-white"
@@ -88,8 +86,9 @@ const Sidebar = () => {
           </li>
           <li>
             <button
+              type="button"
               onClick={handleReviewsClick}
-              className={`flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 group ${
+              className={`flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 group ${
                 gameQuery.title === "Reviews" ? "bg-white/10 font-bold text-white" : "text-gray-400 hover:text-white"
               }`}
             >
@@ -112,8 +111,9 @@ const Sidebar = () => {
           ].map((item) => (
             <li key={item.label}>
               <button
+                type="button"
                 onClick={() => handleNewReleasesClick(item.label)}
-                className={`flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 group ${
+                className={`flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 group ${
                   gameQuery.title === item.label ? "bg-white/10 font-bold text-white" : "text-gray-400 hover:text-white"
                 }`}
               >
@@ -131,8 +131,9 @@ const Sidebar = () => {
         <ul className="flex flex-col gap-1">
           <li>
             <button
+              type="button"
               onClick={() => handleTopClick("best-year", "Best of the year")}
-              className={`flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 group ${
+              className={`flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 group ${
                 gameQuery.title === "Best of the year" ? "bg-white/10 font-bold text-white" : "text-gray-400 hover:text-white"
               }`}
             >
@@ -142,8 +143,9 @@ const Sidebar = () => {
           </li>
           <li>
             <button
+              type="button"
               onClick={() => handleTopClick("popular-2025", "Popular in 2025")}
-              className={`flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 group ${
+              className={`flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 group ${
                 gameQuery.title === "Popular in 2025" ? "bg-white/10 font-bold text-white" : "text-gray-400 hover:text-white"
               }`}
             >
@@ -153,8 +155,9 @@ const Sidebar = () => {
           </li>
           <li>
             <button
+              type="button"
               onClick={() => handleTopClick("top-250", "All time top 250")}
-              className={`flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 group ${
+              className={`flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 group ${
                 gameQuery.title === "All time top 250" ? "bg-white/10 font-bold text-white" : "text-gray-400 hover:text-white"
               }`}
             >
@@ -168,36 +171,18 @@ const Sidebar = () => {
       {/* All Games Link */}
       <div>
         <button
+          type="button"
           onClick={() => {
             resetAll();
             setTitle("All Games");
           }}
-          className={`flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 group ${
+          className={`flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 group ${
             gameQuery.title === "All Games" ? "bg-white/10 font-bold text-white" : "text-gray-400 hover:text-white"
           }`}
         >
           <FaGamepad className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
           <span className="text-base font-bold text-white group-hover:text-white transition-colors">All Games</span>
         </button>
-      </div>
-
-      {/* Browse Section */}
-      <div>
-        <h3 className="text-lg font-extrabold text-white mb-2 px-3 tracking-wide">Browse</h3>
-        <ul className="flex flex-col gap-1">
-          {[
-            { label: "Platforms", icon: BsGlobe },
-            { label: "Stores", icon: FaShoppingBag },
-            { label: "Collections", icon: FaFolder },
-          ].map((item) => (
-            <li key={item.label}>
-              <button className="flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 group text-gray-400 hover:text-white">
-                <item.icon className="w-4 h-4 text-gray-400 group-hover:text-white transition-colors" />
-                <span className="text-sm group-hover:text-white transition-colors">{item.label}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
       </div>
 
       {/* Platforms Section */}
@@ -210,8 +195,9 @@ const Sidebar = () => {
             {visiblePlatforms.map((platform) => (
               <li key={platform.id}>
                 <button
+                  type="button"
                   onClick={() => setPlatformId(platform.id)}
-                  className={`flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 group ${
+                  className={`flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg transition-all hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 group ${
                     platform.id === gameQuery.platformId
                       ? "bg-white/10 font-bold text-white"
                       : "text-gray-400 hover:text-white"
@@ -224,8 +210,9 @@ const Sidebar = () => {
             {platforms.length > 3 && (
               <li>
                 <button
+                  type="button"
                   onClick={() => setExpandPlatforms(!expandPlatforms)}
-                  className="flex items-center justify-between w-full py-2 px-3 text-xs text-gray-500 hover:text-white transition-colors font-bold uppercase tracking-wider"
+                  className="flex items-center justify-between w-full py-2 px-3 text-xs text-gray-400 hover:text-white transition-colors font-bold uppercase tracking-wider focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-md"
                 >
                   <span>{expandPlatforms ? "Show Less" : "Show All"}</span>
                   {expandPlatforms ? <FaChevronUp /> : <FaChevronDown />}
@@ -246,8 +233,9 @@ const Sidebar = () => {
             {visibleGenres.map((genre) => (
               <li key={genre.id}>
                 <button
+                  type="button"
                   onClick={() => setGenreId(genre.id)}
-                  className={`flex items-center gap-3 w-full text-left py-1.5 px-3 rounded-lg transition-all hover:bg-white/10 group ${
+                  className={`flex items-center gap-3 w-full text-left py-1.5 px-3 rounded-lg transition-all hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 group ${
                     genre.id === gameQuery.genreId
                       ? "bg-white/10 font-bold text-white"
                       : "text-gray-400 hover:text-white"
@@ -265,8 +253,9 @@ const Sidebar = () => {
             {genres.length > 5 && (
               <li>
                 <button
+                  type="button"
                   onClick={() => setExpandGenres(!expandGenres)}
-                  className="flex items-center justify-between w-full py-2 px-3 text-xs text-gray-500 hover:text-white transition-colors font-bold uppercase tracking-wider"
+                  className="flex items-center justify-between w-full py-2 px-3 text-xs text-gray-400 hover:text-white transition-colors font-bold uppercase tracking-wider focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-md"
                 >
                   <span>{expandGenres ? "Show Less" : "Show All"}</span>
                   {expandGenres ? <FaChevronUp /> : <FaChevronDown />}

@@ -20,15 +20,19 @@ const GameCard = ({ game }: Props) => {
   const genresList = game.genres?.map((g) => g.name).join(", ") || "N/A";
 
   return (
-    <div className="w-full bg-[#202020] rounded-xl overflow-hidden hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] cursor-pointer flex flex-col group border border-white/5 hover:border-white/15">
-      <Link to={`/games/${game.slug}`} className="w-full h-48 overflow-hidden block">
+    <Link
+      to={`/games/${game.slug}`}
+      aria-label={`View details for ${game.name}`}
+      className="w-full bg-[#202020] rounded-xl overflow-hidden hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] cursor-pointer flex flex-col group border border-white/5 hover:border-white/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+    >
+      <div className="w-full h-48 overflow-hidden block bg-black/40">
         <img
           src={getCroppedImageUrl(game.background_image)}
           alt={game.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           loading="lazy"
         />
-      </Link>
+      </div>
       <div className="p-5 flex flex-col flex-1 gap-4">
         {/* Platforms & Metacritic Score row */}
         <div className="flex justify-between items-center">
@@ -39,13 +43,11 @@ const GameCard = ({ game }: Props) => {
         </div>
 
         {/* Title */}
-        <Link to={`/games/${game.slug}`} className="block">
-          <h2 className="text-xl font-bold text-white group-hover:text-gray-300 transition-colors line-clamp-2 leading-tight">
-            {game.name}
-          </h2>
-        </Link>
+        <h2 className="text-xl font-bold text-white group-hover:text-gray-300 transition-colors line-clamp-2 leading-tight">
+          {game.name}
+        </h2>
 
-        {/* Details breakdown (similar to RAWG card details) */}
+        {/* Details breakdown */}
         <div className="border-t border-white/5 pt-3 mt-auto flex flex-col gap-1.5 text-xs text-gray-400">
           <div className="flex justify-between items-center">
             <span>Release date:</span>
@@ -59,7 +61,7 @@ const GameCard = ({ game }: Props) => {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

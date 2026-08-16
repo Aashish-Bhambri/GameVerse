@@ -4,12 +4,23 @@ import { SearchInput } from "./SearchInput";
 
 const NavBar = () => {
   return (
-    <div className="flex items-center gap-4 w-full">
-      <Link to="/">
-        <img src={logo3} alt="Logo" className="w-14 h-14 object-contain hover:scale-110 transition-transform cursor-pointer" />
+    <header className="flex items-center justify-between gap-4 w-full py-2">
+      <Link
+        to="/"
+        aria-label="GameVerse Home"
+        className="flex items-center gap-2.5 group focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-lg pr-2"
+      >
+        <img
+          src={logo3}
+          alt="GameVerse Logo"
+          className="w-11 h-11 object-contain group-hover:scale-105 transition-transform duration-200"
+        />
+        <span className="hidden sm:inline-block font-black text-xl tracking-wider text-white group-hover:text-emerald-400 transition-colors uppercase">
+          Game<span className="text-emerald-400">Verse</span>
+        </span>
       </Link>
       <SearchInput />
-    </div>
+    </header>
   );
 };
 

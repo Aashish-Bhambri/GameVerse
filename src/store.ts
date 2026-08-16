@@ -27,33 +27,39 @@ const useGameQueryStore = create<GameQueryStore>((set) => ({
     // Actions that use 'set' to update the state safely
     setSearchText: (searchText) =>
         set((store) => ({
-            gameQuery: searchText
-                ? { searchText }
-                : { ...store.gameQuery, searchText: undefined, title: undefined },
+            gameQuery: {
+                ...store.gameQuery,
+                searchText: searchText || undefined,
+                title: undefined,
+            },
         })),
 
     setGenreId: (genreId) =>
         set((store) => ({
-            gameQuery: genreId === undefined
-                ? { ...store.gameQuery, genreId: undefined, title: undefined }
-                : { ...store.gameQuery, genreId, searchText: undefined, title: undefined },
+            gameQuery: {
+                ...store.gameQuery,
+                genreId: genreId !== undefined ? genreId : undefined,
+                title: undefined,
+            },
         })),
 
     setPlatformId: (platformId) =>
         set((store) => ({
-            gameQuery: platformId === undefined
-                ? { ...store.gameQuery, platformId: undefined, title: undefined }
-                : { ...store.gameQuery, platformId, searchText: undefined, title: undefined },
+            gameQuery: {
+                ...store.gameQuery,
+                platformId: platformId !== undefined ? platformId : undefined,
+                title: undefined,
+            },
         })),
 
     setSortOrder: (sortOrder) =>
         set((store) => ({
-            gameQuery: { ...store.gameQuery, sortOrder },
+            gameQuery: { ...store.gameQuery, sortOrder: sortOrder || undefined },
         })),
 
     setTitle: (title) =>
         set((store) => ({
-            gameQuery: { ...store.gameQuery, title },
+            gameQuery: { ...store.gameQuery, title: title || undefined },
         })),
 
     resetAll: () => set(() => ({ gameQuery: {} })),

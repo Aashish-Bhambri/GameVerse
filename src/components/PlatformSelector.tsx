@@ -28,8 +28,12 @@ const PlatformSelector = () => {
   return (
     <div className="relative inline-block w-52 text-left" ref={dropdownRef}>
       <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-between w-full bg-[#202020] hover:bg-[#2a2a2a] text-white py-2.5 px-4 rounded-md focus:outline-none transition-all border border-white/5 active:scale-[0.98] shadow-md text-sm font-semibold"
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
+        aria-label="Filter games by platform"
+        className="flex items-center justify-between w-full bg-[#202020] hover:bg-[#2a2a2a] text-white py-2.5 px-4 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 transition-all border border-white/5 active:scale-[0.98] shadow-md text-sm font-semibold"
       >
         <span>{selectedPlatform?.name || "Platforms"}</span>
         <BsChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
@@ -37,9 +41,12 @@ const PlatformSelector = () => {
 
       {isOpen && (
         <div className="absolute left-0 mt-2 w-full bg-[#202020]/95 backdrop-blur-md border border-white/10 rounded-md shadow-xl z-50 max-h-72 overflow-y-auto overflow-x-hidden scrollbar-thin">
-          <ul className="py-1">
-            <li>
+          <ul role="listbox" aria-label="Platforms" className="py-1">
+            <li role="presentation">
               <button
+                type="button"
+                role="option"
+                aria-selected={!selectedPlatformId}
                 onClick={() => {
                   setSelectedPlatformId(undefined);
                   setIsOpen(false);
@@ -52,8 +59,11 @@ const PlatformSelector = () => {
               </button>
             </li>
             {data.map((platform) => (
-              <li key={platform.id}>
+              <li key={platform.id} role="presentation">
                 <button
+                  type="button"
+                  role="option"
+                  aria-selected={platform.id === selectedPlatformId}
                   onClick={() => {
                     setSelectedPlatformId(platform.id);
                     setIsOpen(false);

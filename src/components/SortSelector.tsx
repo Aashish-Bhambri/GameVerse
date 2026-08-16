@@ -32,8 +32,12 @@ const SortSelector = () => {
   return (
     <div className="relative inline-block w-52 text-left" ref={dropdownRef}>
       <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-between w-full bg-[#202020] hover:bg-[#2a2a2a] text-white py-2.5 px-4 rounded-md focus:outline-none transition-all border border-white/5 active:scale-[0.98] shadow-md text-sm font-semibold"
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
+        aria-label="Sort games by attribute"
+        className="flex items-center justify-between w-full bg-[#202020] hover:bg-[#2a2a2a] text-white py-2.5 px-4 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 transition-all border border-white/5 active:scale-[0.98] shadow-md text-sm font-semibold"
       >
         <span>Order by: {currentSortOrder?.label || "Relevance"}</span>
         <BsChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
@@ -41,10 +45,13 @@ const SortSelector = () => {
 
       {isOpen && (
         <div className="absolute left-0 mt-2 w-full bg-[#202020]/95 backdrop-blur-md border border-white/10 rounded-md shadow-xl z-50">
-          <ul className="py-1">
+          <ul role="listbox" aria-label="Sort orders" className="py-1">
             {sortOrders.map((order) => (
-              <li key={order.value}>
+              <li key={order.value} role="presentation">
                 <button
+                  type="button"
+                  role="option"
+                  aria-selected={order.value === (sortOrder || "")}
                   onClick={() => {
                     setSortOrder(order.value);
                     setIsOpen(false);
