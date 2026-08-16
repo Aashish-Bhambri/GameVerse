@@ -23,6 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
+.impeccable
+
 # Environment Variables
 .env
 .env.*
